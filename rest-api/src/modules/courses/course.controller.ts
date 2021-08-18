@@ -7,7 +7,8 @@ export class CourseController {
   constructor() {}
   @Get('/')
   async getAllCourses(): Promise<Course> {
-    throw new BadRequestException('Badd');
+    // throw new Error('Badd');
+    throw new BadRequestException('BadRequestException');
     return COURSES;
   }
 }

@@ -2,6 +2,7 @@
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { FallbackExceptionFilter } from './filters/fallback.filter';
 import { HttpExceptionFilter } from './filters/http.filter';
 
 const APP_PORT = process.env.PORT || 8080;
@@ -13,7 +14,10 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // use global filter
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(
+    new FallbackExceptionFilter(),
+    new HttpExceptionFilter(),
+  );
   await app.listen(APP_PORT);
   console.log(`Server started at ${APP_PORT} PORT`);
 }
