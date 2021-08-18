@@ -15,7 +15,7 @@ import { buildResponseDto } from '../responses/response.dto';
 export class HttpExceptionFilter implements ExceptionFilter<any> {
   catch(ex: HttpException, host: ArgumentsHost) {
     const ctx: HttpArgumentsHost = host.switchToHttp();
-    const res: Response = ctx.getResponse();
+    const res = ctx.getResponse<Response>();
     const status = ex.getStatus();
     const ret = buildResponseDto<any>(status, null, [ex.message.message]);
     res.json(ret);

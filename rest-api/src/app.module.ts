@@ -1,4 +1,6 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { GetUserMiddleWare } from './middlewares/get-user.middleware';
+import { CourseController } from './modules/courses/course.controller';
 // import { MongooseModule } from '@nestjs/mongoose';
 import { CourseModule } from './modules/courses/course.module';
 
@@ -10,4 +12,16 @@ import { CourseModule } from './modules/courses/course.module';
     // ),
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        // list of middlewares we want to apply in order
+        GetUserMiddleWare,
+      )
+      .forRoutes(
+        // list of controller on which middlewares being applied to
+        CourseController,
+      );
+  }
+}

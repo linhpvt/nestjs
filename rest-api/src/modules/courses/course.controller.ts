@@ -1,13 +1,24 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { CourseDto } from '../../dtos/course.dto';
 import { ToIntergerPipe } from '../../pipes/to-integer.pipe';
 import { Course } from '../../../../shared/course';
 import { COURSES } from '../../../db-data';
+import { AuthenticationGuard } from '../../guards/authentication.guard';
 
 @Controller('course')
+@UseGuards(AuthenticationGuard)
 export class CourseController {
   constructor() {}
   @Get('/')
+  @UseGuards(AuthenticationGuard)
   async getAllCourses(): Promise<Course> {
     // throw new Error('Badd');
     // throw new BadRequestException('BadRequestException');
