@@ -12,6 +12,7 @@ import { ToIntergerPipe } from '../../pipes/to-integer.pipe';
 import { Course } from '../../../../shared/course';
 import { COURSES } from '../../../db-data';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
+import { AdminGuard } from 'src/guards/admin.guard';
 
 @Controller('course')
 @UseGuards(AuthenticationGuard)
@@ -24,6 +25,7 @@ export class CourseController {
     // throw new BadRequestException('BadRequestException');
     return COURSES;
   }
+  @UseGuards(AdminGuard)
   @Put('/:courseId')
   async updateCourse(
     @Param('courseId', ToIntergerPipe) courseId: number,
@@ -34,6 +36,7 @@ export class CourseController {
   }
 
   // to get class-validator effect, user CourseDto instead of Partial<CourseDto)
+  @UseGuards(AdminGuard)
   @Post()
   async createCourse(@Body() changes: CourseDto) {
     return { body: changes };
